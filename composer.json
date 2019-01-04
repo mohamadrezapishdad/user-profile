@@ -1,0 +1,14 @@
+{
+    "name": "larafa/user-profile",
+    "description": "This package adds profile to users",
+    "require": {
+        "laravel/framework": "^5.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Larafa\\UserProfile\\": ""
+        },
+    },
+    "license": "MIT",
+    "minimum-stability": "dev"
+}
