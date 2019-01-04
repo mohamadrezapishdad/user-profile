@@ -58,7 +58,7 @@ class ProfileController extends Controller
      */
     public function edit(Profile $profile)
     {
-        //
+        return view('user-profile::edit' , compact('profile'));
     }
 
     /**
@@ -70,7 +70,16 @@ class ProfileController extends Controller
      */
     public function update(Request $request, Profile $profile)
     {
-        //
+
+            //TODO validation
+        
+            if($request->hasFile('profile_pic')){
+                $path = $request->file('profile_pic')->store('public/profile_pics');
+                $request->request->add(['avatar_path'=>$path]);
+            }
+
+            $profile->update($request->all());
+            return redirect('profiles/' . $profile->id);
     }
 
     /**

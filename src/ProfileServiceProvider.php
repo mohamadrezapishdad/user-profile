@@ -18,6 +18,7 @@ class ProfileServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
         $this->loadViewsFrom(__DIR__.'/views', 'user-profile');
 
+
         $this->publishes([
             __DIR__.'/factories/ProfileFactory.php' => database_path('factories/ProfileFactory.php')
         ], 'factories');
