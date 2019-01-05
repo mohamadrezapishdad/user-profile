@@ -2,6 +2,7 @@
 
 namespace Larafa\UserProfile\Http;
 
+use Illuminate\Support\Facades\Auth;
 use Larafa\UserProfile\Profile;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -59,6 +60,12 @@ class ProfileController extends Controller
     public function edit(Profile $profile)
     {
         return view('user-profile::edit' , compact('profile'));
+    }
+
+    public function doEdit()
+    {
+        $user = Auth::user();
+        return redirect('profiles/'.$user->id.'/edit');
     }
 
     /**

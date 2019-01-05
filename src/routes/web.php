@@ -5,7 +5,12 @@
 | Web Routes
 |--------------------------------------------------------------------------
 */
+
+use Illuminate\Support\Facades\Route;
+
 Route::middleware('web')->group(function(){
-	Route::resource('/profiles', 'Larafa\UserProfile\Http\ProfileController');
+    Route::get('/profiles/edit' , 'Larafa\UserProfile\Http\ProfileController@doEdit');
+    Route::resource('/profiles', 'Larafa\UserProfile\Http\ProfileController');
+
 });
 
