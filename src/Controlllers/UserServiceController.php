@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 class UserServiceController extends Controller
 {
+    protected $filterables = ['name', 'email'];
     /**
      * The authenticated user follow a given user
      *
@@ -49,10 +50,18 @@ class UserServiceController extends Controller
         return "1";
     }
 
-    public function getUsers($option)
-    {
-        $user = Auth::user();
-        $users = $user->getUsers($option);
-        return $users->paginate();
+    public function getUsers(Request $request, $option)
+    {      
+        $users = User::where('id', '>', 0);
+        $filters = json_decode($request->filters , true);
+        
+        // If the value is not an array then the query would be added
+        foreach ($filters as $key => $value) {
+            if (! in_array($key , $this->filterables)){continue;}
+            $users = (is_array($value))?$users:$users->where($key, 'like', '%'.$value.'%');
+        }
+        
+        return $users->get();
+
     }
 }
