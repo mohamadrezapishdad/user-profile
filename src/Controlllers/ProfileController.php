@@ -48,7 +48,7 @@ class ProfileController extends Controller
      */
     public function show(Profile $profile)
     {
-        //
+        return view('user-profile::show' , compact('profile'));
     }
 
     /**
@@ -81,6 +81,7 @@ class ProfileController extends Controller
             //TODO validation
         
             if($request->hasFile('profile_pic')){
+                
                 $path = $request->file('profile_pic')->store('public/profile_pics');
                 $request->request->add(['avatar_path'=>$path]);
             }
