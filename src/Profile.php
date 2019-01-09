@@ -32,6 +32,7 @@ class Profile extends Model
 
     public function getAvatarUrlAttribute()
     {
+        if ($this->avatar_path ==null) {return null;}
         return url($this->avatar_path);
     }
 
