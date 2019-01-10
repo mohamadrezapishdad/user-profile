@@ -1,17 +1,19 @@
 <?php
 namespace Larafa\UserProfile;
 
+use Larafa\UserProfile\Profile;
+
 trait hasProfile {
 	
 	public function profile()
     {
-        return $model->hasOne(\App\Profile::class, 'id', 'user_id');
+        return $this->belongsTo(Profile::class , 'id', 'user_id');
     }
 
     public static function create(array $attributes = [])
     {
         $user = static::query()->create($attributes);
-        \Larafa\UserProfile\Profile::create([
+        Profile::create([
             'user_id'=> $user->id
         ]);
         return $user;
