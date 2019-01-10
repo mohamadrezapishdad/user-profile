@@ -6,12 +6,12 @@ use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use Illuminate\Database\Query\Builder;
+use Larafa\UserProfile\Facades\UserServiceFacade as UserService;
 use Illuminate\Support\Facades\DB;
 
 class UserServiceController extends Controller
 {
-    protected $filterables = ['name', 'email', 'country', 'city'];
+    
     /**
      * The authenticated user follow a given user
      *
@@ -55,34 +55,10 @@ class UserServiceController extends Controller
     public function getUsers(Request $request, $option)
     {      
         $users = DB::table('users as u')->leftJoin('profiles as p', 'p.user_id', 'u.id');
-        $users = $this->filter($users, $request);
-        $users = $this->include($users, $request);
-        return $users;
-
-
-    }
-
-    protected function filter(Builder $users, Request $request)
-    {
-        $filters = json_decode($request->filters , true);
-        if (! is_array($filters)) {return $users;}
-        $this->applyFilters($users , $filters);
+        $users = UserService::filter($users, $request);
+        $users = UserService::include($users, $request);
         return $users;
     }
 
-    protected function applyFilters(Builder $users, Array $filters)
-    {
-        // If the value is not an array then the query would be added
-        foreach ($filters as $key => $value) {
-            if (! in_array($key , $this->filterables)){continue;}
-            $users = (is_array($value))?$users:$users->where($key, 'like', '%'.$value.'%');
-        }
-    }
-
-    public function include(Builder $users, Request $request)
-    {
-        $include = json_decode($request->include , true);
-        if (! is_array($include)) {return $users->get();}
-        return $users->get($include);
-    }
+    
 }
