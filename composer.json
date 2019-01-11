@@ -2,7 +2,8 @@
     "name": "larafa/user-profile",
     "description": "This package adds profile to users",
     "require": {
-        "laravel/framework": "^5.7"
+        "laravel/framework": "^5.7",
+        "laravelcollective/html": "^5.5"
     },
     "autoload": {
         "psr-4": {
@@ -10,5 +11,12 @@
         },
     },
     "license": "MIT",
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Larafa\\UserProfile\\ProfileServiceProvider"
+            ]
+        }
+    },
 }

@@ -35,6 +35,14 @@ class ProfileServiceProvider extends AuthServiceProvider
             __DIR__.'/factories/ProfileFactory.php' => database_path('factories/ProfileFactory.php')
         ], 'factories');
 
+        //TODO : provide view and controller for the user to customize
+        //$this->publishes([
+        //    __DIR__.'/views/' => resource_path('views/profiles/')
+        //], 'resources');
+        //$this->publishes([
+        //    __DIR__.'/Controllers/' => app_path('Http/Controllers/')
+        //], 'controllers');
+
         $this->registerPolicies();
         Gate::resource('users',UserPolicy::class);
     }
