@@ -12,6 +12,7 @@ use Larafa\UserProfile\Http\Controllers\UserServiceController;
 Route::middleware('web')->group(function(){
     Route::get('/profiles/edit' , 'Larafa\UserProfile\Http\ProfileController@doEdit');
     Route::resource('/profiles', 'Larafa\UserProfile\Http\ProfileController');
+    Route::resource('/users', 'UserController');
 
     Route::get('/services/follow/{user}', UserServiceController::class.'@addFollowing');
 	Route::get('/services/hasfollowing/{user}', UserServiceController::class.'@hasFollowing');

@@ -21,7 +21,7 @@ class Profile extends Model
 
     public function user()
     {
-    	return $this->belongsTo(\App\User::class, 'user_id', 'id')->get();
+    	return $this->hasOne(\App\User::class, 'id', 'user_id')->get();
     }
 
     public function getAvatarPathAttribute($value)

@@ -2,11 +2,21 @@
 
 namespace Larafa\UserProfile;
 
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider;
 use Illuminate\Database\Eloquent\Builder;
+use Larafa\UserProfile\Policies\UserPolicy;
+use Illuminate\Support\Facades\Gate;
 
-class ProfileServiceProvider extends ServiceProvider
+class ProfileServiceProvider extends AuthServiceProvider
 {
+    /**
+     * The policy mappings for the application.
+     *
+     * @var array
+     */
+    protected $policies = [
+        App\User::class=>UserPolicy::class,
+    ];
     /**
      * Bootstrap services.
      *
@@ -24,6 +34,9 @@ class ProfileServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/factories/ProfileFactory.php' => database_path('factories/ProfileFactory.php')
         ], 'factories');
+
+        $this->registerPolicies();
+        Gate::resource('users',UserPolicy::class);
     }
 
     /**

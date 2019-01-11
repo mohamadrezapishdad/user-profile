@@ -18,4 +18,13 @@ trait hasProfile {
         ]);
         return $user;
     }
+
+    public function save(array $options = [])
+    {
+        parent::save($options);
+        Profile::create([
+            'user_id'=> $this->id
+        ]);
+        return $this;
+    }
 }

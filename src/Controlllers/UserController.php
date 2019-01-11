@@ -1,14 +1,14 @@
 <?php
 
-namespace Larafa\UserProfile\Http;
+namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
-use Larafa\UserProfile\Profile;
+use App\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Hash;
+use Larafa\UserProfile\Policies\UserPolicy;
 
-class ProfileController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +17,8 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        return view('user-profile::index');
+        $users = User::all();
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -44,65 +45,60 @@ class ProfileController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Profile  $profile
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(Profile $profile)
+    public function show(User $user)
     {
-        return view('user-profile::show' , compact('profile'));
+        return view('users.show',compact('user'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Profile  $profile
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(Profile $profile)
+    public function edit(User $user)
     {
-        $user = $profile->user()->first();
         if (Gate::allows('users.update',$user)) {
-            return view('user-profile::edit' , compact('profile'));
+            return view('users.edit', compact('user'));
         }
-    }
-
-    public function doEdit()
-    {
-        $user = Auth::user();
-        return redirect('profiles/'.$user->id.'/edit');
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Profile  $profile
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Profile $profile)
+    public function update(Request $request, User $user)
     {
-        $user = $profile->user()->first();
         if (Gate::allows('users.update',$user)) {
-            //TODO validation
-        
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255',
+                'password' => 'required|string|min:6|confirmed',
+            ]);
+            $request->request->set('password',Hash::make($request->password));
             if($request->hasFile('profile_pic')){
-                
                 $path = $request->file('profile_pic')->store('public/profile_pics');
                 $request->request->add(['avatar_path'=>$path]);
             }
 
-            $profile->update($request->all());
-            return redirect('profiles/' . $profile->id);
+            $user->update($request->all());
+            return redirect('users/' . $user->id);
         }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Profile  $profile
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Profile $profile)
+    public function destroy(User $user)
     {
         //
     }
