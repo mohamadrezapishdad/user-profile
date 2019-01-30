@@ -4,6 +4,7 @@ namespace Larafa\UserProfile;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Larafa\UserProfile\Policies\UserPolicy;
 use Illuminate\Support\Facades\Gate;
 
@@ -34,6 +35,13 @@ class ProfileServiceProvider extends AuthServiceProvider
         $this->publishes([
             __DIR__.'/factories/ProfileFactory.php' => database_path('factories/ProfileFactory.php')
         ], 'factories');
+
+        $this->app->bind(UserRepository::class, function ($app){
+            if (Auth::user()==null){
+                throw new \Exception("Requester must be signed in");
+            }
+            return new UserRepository(Auth::user());
+        });
 
         //TODO : provide view and controller for the user to customize
         //$this->publishes([

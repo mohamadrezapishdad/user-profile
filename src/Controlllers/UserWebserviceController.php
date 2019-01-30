@@ -8,10 +8,22 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Larafa\UserProfile\Facades\UserServiceFacade as UserService;
 use Illuminate\Support\Facades\DB;
+use Larafa\UserProfile\UserRepository;
 
-class UserServiceController extends Controller
+class UserWebserviceController extends Controller
 {
-    
+    protected $repository;
+
+    /**
+     * UserWebserviceController constructor.
+     * @param $repo
+     */
+    public function __construct(UserRepository $repository)
+    {
+        $this->repository = $repository;
+    }
+
+
     /**
      * The authenticated user follow a given user
      *
@@ -53,10 +65,10 @@ class UserServiceController extends Controller
     }
 
     public function getUsers(Request $request, $option)
-    {      
-        $users = DB::table('users as u')->leftJoin('profiles as p', 'p.user_id', 'u.id');
-        $users = UserService::filter($users, $request);
-        $users = UserService::include($users, $request);
+    {
+        $users = $this->repository->getQuery();
+        $users = UserService::filter($users, json_decode($request->filters, true));
+        $users = UserService::include($users, json_decode($request->include, true));
         return $users;
     }
 

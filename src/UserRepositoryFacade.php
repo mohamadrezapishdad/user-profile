@@ -5,9 +5,9 @@ namespace Larafa\UserProfile\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Larafa\UserProfile\UserService
+ * @see \Larafa\UserProfile\UserRepository
  */
-class UserServiceFacade extends Facade
+class UserRepositoryFacade extends Facade
 {
 
     /**
@@ -17,6 +17,6 @@ class UserServiceFacade extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'Larafa\UserProfile\UserService';
+        return 'Larafa\UserProfile\UserRepository';
     }
 }

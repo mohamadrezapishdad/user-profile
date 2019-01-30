@@ -57,7 +57,6 @@ trait hasFollowings {
     /**
      * Returns the array of users which this user follows
      *
-     * @param bool $onlyId
      * @return array
      */
     public function followings(/*$onlyId=false*/)
@@ -75,7 +74,7 @@ trait hasFollowings {
     	return $ids;
 
     }
-/**
+    /**
      * @return int
      */
     public function getFollowingsNumber()
@@ -116,4 +115,9 @@ trait hasFollowings {
         }
         return $this;
     }
+
+    public static function getFollowingsTraitName(){
+        return  __TRAIT__;
+    }
+    
 }

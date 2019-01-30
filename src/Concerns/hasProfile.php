@@ -27,4 +27,8 @@ trait hasProfile {
         ]);
         return $this;
     }
+
+    public static function getProfileTraitName(){
+	    return  __TRAIT__;
+    }
 }
