@@ -32,6 +32,8 @@ class User extends Authenticatable
 ```
 > php artisan vendor:publish --tag=resources
 > php artisan vendor:publish --tag=controllers
+> php artisan vendor:publish --tag=user_views
+> php artisan vendor:publish --tag=user_controller
 ```
 
 3. In case you wanted to seed your database run the following command to have the user factory

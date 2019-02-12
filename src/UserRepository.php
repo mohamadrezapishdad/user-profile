@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: m.pishdad
- * Date: 1/30/2019
- * Time: 8:57 AM
- */
 
 namespace Larafa\UserProfile;
 

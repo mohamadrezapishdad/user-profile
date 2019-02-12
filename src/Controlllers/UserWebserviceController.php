@@ -1,6 +1,6 @@
 <?php
 
-namespace Larafa\UserProfile\Http\Controllers;
+namespace Larafa\UserProfile\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;

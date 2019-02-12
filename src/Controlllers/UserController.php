@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Larafa\UserProfile\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Larafa\UserProfile\Policies\UserPolicy;
+use Larafa\UserProfile\UserRepository;
 
 class UserController extends Controller
 {
@@ -15,9 +17,9 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(UserRepository $userRepository)
     {
-        $users = User::all();
+        $users = $userRepository->getModels();
         return view('users.index', compact('users'));
     }
 

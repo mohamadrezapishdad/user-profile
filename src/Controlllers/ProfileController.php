@@ -1,6 +1,6 @@
 <?php
 
-namespace Larafa\UserProfile\Http;
+namespace Larafa\UserProfile\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Larafa\UserProfile\Profile;

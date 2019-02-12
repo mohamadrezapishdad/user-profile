@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Larafa\UserProfile\Policies\UserPolicy;
 use Illuminate\Support\Facades\Gate;
+use Larafa\UserProfile\UserRepository;
 
 class ProfileServiceProvider extends AuthServiceProvider
 {
@@ -32,16 +33,31 @@ class ProfileServiceProvider extends AuthServiceProvider
         $this->loadViewsFrom(__DIR__.'/views', 'user-profile');
 
 
+        $this->registerPolicies();
+        Gate::resource('users',UserPolicy::class);
+
+
+
+
         $this->publishes([
             __DIR__.'/factories/ProfileFactory.php' => database_path('factories/ProfileFactory.php')
         ], 'factories');
 
-        $this->app->bind(UserRepository::class, function ($app){
+        $this->publishes([
+            __DIR__.'/views/users' => resource_path('views/users/')
+        ], 'user_views');
+
+        $this->publishes([
+            __DIR__.'/customizables/UserController.php' => app_path('Http/Controllers/UserController.php')
+        ], 'user_controller');
+
+        $this->app->singleton(UserRepository::class, function ($app){
             if (Auth::user()==null){
-                throw new \Exception("Requester must be signed in");
+                throw new \Exception("You must be signed in");
             }
             return new UserRepository(Auth::user());
         });
+
 
         //TODO : provide view and controller for the user to customize
         //$this->publishes([
@@ -51,8 +67,7 @@ class ProfileServiceProvider extends AuthServiceProvider
         //    __DIR__.'/Controllers/' => app_path('Http/Controllers/')
         //], 'controllers');
 
-        $this->registerPolicies();
-        Gate::resource('users',UserPolicy::class);
+
     }
 
     /**
